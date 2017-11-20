@@ -279,9 +279,7 @@
         }
       }
       
-      static get observers(){
-        return [ '_notifyBrain('+Brain.notifiables.join(',')+')'];
-      }
+     
       
      
       
@@ -425,6 +423,15 @@
           }
         };
       }
+      
+      static get observers(){
+        return [ '_notifyBrain('+Brain.notifiables.join(',')+')'];
+      }
+      
+      _notifyBrain(){
+        Brain.notify();
+      }
+      
       constructor(){
         super();
         Brain.elements.push( this );
@@ -442,7 +449,7 @@
           this.brain.import( apiProductData );
           this.imported = true;
         }
-        this._setCategoryNames( Brain.categories.map( (c)=>{
+        this._setCategories( Brain.categories.map( (c)=>{
           var n = c.split('-');
           if(n.length > 1){
             n.shift();
