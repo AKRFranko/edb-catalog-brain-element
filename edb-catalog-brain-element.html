@@ -47,7 +47,7 @@
     
     const Brain = new EDBCatalogBrain();
     Brain.elements = [];
-    Brain.notifiables = ['cart','currentProduct','currentListing','ref'];
+    Brain.notifiables = ['cart','currentProduct','currentListing','imported'];
     Brain.notify = function(){
       Brain.elements.forEach( ( element )=>{
         Brain.notifiables.forEach( ( prop )=>{
@@ -446,9 +446,28 @@
       onApiProductDataChanged( apiProductData ){
         if(!apiProductData) return;
         if(!this.imported){
-          this.brain.import( apiProductData.sort( (a)=>{
-            return a.meta_box.edb_group_ids ? -1 : a.meta_box.edb_bucket_slug ? 1 : 0;
-          }));
+          
+          this.brain.import( apiProductData.sort( (a,b)=>{
+                               var aIsComposite = a.meta_box.edb_group_ids;
+                               var bIsComposite = b.meta_box.edb_group_ids;
+                               var aIsBucket = a.meta_box.edb_bucket_slug;
+                               var bIsBucket = b.meta_box.edb_bucket_slug
+                               if(aIsComposite && bIsComposite){
+                                 return 0;
+                               }else if(aIsComposite && !bIsComposite){
+                                 return 1;
+                               }else if(bIsComposite && !aIsComposite){
+                                 return -1;
+                               }
+                               if(aIsBucket && bIsBucket){
+                                 return 0;
+                               }else if(aIsBucket && !bIsBucket){
+                                 return -1;
+                               }else if(bIsBucket && !aIsBucket){
+                                  return 1;
+                               }
+                               return 0;
+                             }));
           this.imported = true;
         }
         this._setCategories( Brain.categories.map( (c)=>{
