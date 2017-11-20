@@ -15,19 +15,47 @@
     
   
     const slipNames = {
-      'slipcover-003': 'RED'
+      'slipcover-001': '001',
+      'slipcover-002': '002',
+      'slipcover-003': '003',
+      'slipcover-004': '004',
+      'slipcover-005': '005',
+      'slipcover-006': '006',
+      'slipcover-007': '007',
+      'slipcover-008': '008',
+      'slipcover-009': '009',
+      'slipcover-010': '010',
+      'slipcover-011': '011',
+      'slipcover-012': '012',
+      'slipcover-013': '013',
+      'slipcover-014': '014',
+      'slipcover-015': '015',
+      'slipcover-016': '016',
+      'slipcover-017': '017',
+      'slipcover-018': '018',
+      'slipcover-019': '019',
+      'slipcover-020': '020'
     };
+    
     const legNames = {
-      'leg-001': 'WALNUT'
+      'leg-001': 'NATURAL',
+      'leg-002': 'WALNUT',
+      'leg-003': 'GOLD',
     };
+    
+    
+    
     const Brain = new EDBCatalogBrain();
     Brain.elements = [];
+    Brain.notifiables = ['cart','currentProduct','currentListing','ref'];
     Brain.notify = function(){
       Brain.elements.forEach( ( element )=>{
-        element.notifyPath('brain.cart');
-        
-      })
+        Brain.notifiables.forEach( ( prop )=>{
+          element.notifyPath(`brain.${prop}`);  
+        });
+      });
     };
+    
     var ReflectValuesMixin = function(superClass) {
       return class extends superClass {
         _reflectString(l,...s){
@@ -437,7 +465,6 @@
         
         if(!postCode) return null;
         var result = this.brain.cart.setZoneFromPostalCode( postCode );
-        Brain.notify();
         return result;
       }
       
@@ -466,7 +493,7 @@
         }
       }
       
-      removeCartITem(){
+      removeCartItem(){
         
       }
       
