@@ -279,6 +279,9 @@
         }
       }
       
+      static get observers(){
+        return [ '_notifyBrain('+Brain.notifiables.join(',')+')'];
+      }
       
      
       

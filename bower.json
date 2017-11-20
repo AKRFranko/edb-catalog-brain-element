@@ -1,8 +1,6 @@
 {
   "name": "edb-catalog-brain-element",
-  "main": [
-    "edb-catalog-brain-element.html",
-    "edb-catalog-brain-import.html"],
+  "main": "edb-catalog-brain-element.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "edb-catalog-brain": "AKRFranko/edb-importer"
