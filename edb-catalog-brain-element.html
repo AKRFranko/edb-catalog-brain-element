@@ -446,7 +446,9 @@
       onApiProductDataChanged( apiProductData ){
         if(!apiProductData) return;
         if(!this.imported){
-          this.brain.import( apiProductData );
+          this.brain.import( apiProductData.sort( (a)=>{
+            return a.meta_box.edb_group_ids ? -1 : a.meta_box.edb_bucket_slug ? 1 : 0;
+          }));
           this.imported = true;
         }
         this._setCategories( Brain.categories.map( (c)=>{
